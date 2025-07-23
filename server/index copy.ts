@@ -1,14 +1,29 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { handleDemo } from "./routes/demo.js";
+import connectDB from "/backend/src/config/database.js";
 
+// Import routes
+import userRoutes from "../backend/src/routes/user.js";
+import formRoutes from "../backend/src/routes/surveyForm.js";
+import responseRoutes from "../backend/src/routes/surveyResponse.js";
+import categoryRoutes from "../backend/src/routes/category.js";
+import { handleDemo } from "./routes/demo.js";
+ 
 dotenv.config();
 
 // Global state for database connection
+import type { Request } from "express";
+
 declare global {
   var mongoConnected: boolean;
   var databaseAvailable: boolean;
+
+  namespace Express {
+    interface Request {
+      databaseAvailable?: boolean;
+    }
+  }
 }
 
 export function createServer() {
